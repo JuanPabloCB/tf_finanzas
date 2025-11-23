@@ -1,0 +1,47 @@
+<div class="login-container">
+
+  <div class="login-card">
+
+    <button class="close-btn">✕</button>
+
+    <h2>Iniciar Sesión</h2>
+
+    <form #loginForm="ngForm" (ngSubmit)="onLogin()">
+
+      <label>Correo</label>
+      <input
+        type="email"
+        name="email"
+        required
+        [(ngModel)]="email"
+        placeholder="Ingresa tu correo"
+      />
+
+      <label>Contraseña</label>
+      <input
+        type="password"
+        name="password"
+        required
+        [(ngModel)]="password"
+        placeholder="Ingresa tu contraseña"
+      />
+
+      <div class="remember">
+        <input type="checkbox" /> Recordar contraseña
+      </div>
+
+      <button type="submit" class="btn-login">
+        Iniciar Sesión
+      </button>
+
+      <p class="register-text">
+        ¿No tienes una cuenta?
+        <a href="#">Regístrate ahora</a>
+      </p>
+
+      <p class="login-message">{{ message }}</p>
+
+    </form>
+  </div>
+
+</div>
