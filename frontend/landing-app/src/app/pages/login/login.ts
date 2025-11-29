@@ -1,38 +1,95 @@
+// src/app/pages/login/login.ts
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../services/auth';
+import { Router, RouterModule } from '@angular/router';
+
+import { AuthService, LoginPayload } from '../../services/auth';
 
 @Component({
-  standalone: true,
   selector: 'app-login',
-  imports: [FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login.html',
-  styleUrls: ['./login.css']
+  styleUrls: ['./login.css'],
 })
 export class LoginComponent {
+  email = '';
+  password = '';
 
-  email: string = "";
-  password: string = "";
-  message: string = "";
+  mensajeOk = '';
+  mensajeError = '';
+  loading = false;
 
-  constructor(private authService: AuthService) {}
+  // ===== POPUP (para errores) =====
+  showModal = false;
+  modalTitle = '';
+  modalMessage = '';
+  modalType: 'success' | 'error' = 'error'; // lo usamos solo para errores ahora
 
-  onLogin() {
-    console.log('onLogin called', { email: this.email, password: this.password ? '***' : '' });
-    this.message = 'Enviando credenciales...';
-    this.authService.login(this.email, this.password).subscribe(
-      (res: any) => {
-        console.log('login response', res);
+  constructor(private auth: AuthService, private router: Router) {}
+
+  private openModalError(message: string) {
+    this.modalType = 'error';
+    this.modalTitle = 'Error al iniciar sesión';
+    this.modalMessage = message;
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
+
+  goToRegister() {
+    this.router.navigate(['/register']);
+  }
+
+  onSubmit() {
+    this.mensajeOk = '';
+    this.mensajeError = '';
+
+    // ===== Validación de campos vacíos (popup error) =====
+    if (!this.email || !this.password) {
+      const msg = 'Correo y contraseña son obligatorios.';
+      this.mensajeError = msg;
+      this.openModalError(msg);
+      return;
+    }
+
+    this.loading = true;
+
+    const payload: LoginPayload = {
+      email: this.email,
+      password: this.password,
+    };
+
+    console.log('Enviando payload de login:', payload);
+
+    this.auth.login(payload).subscribe({
+      next: (res) => {
+        console.log('Respuesta de login:', res);
+        this.loading = false;
+
         if (res.success) {
-          this.message = "✔ Inicio de sesión exitoso";
+          // ✅ Login correcto → mensaje simple (por ahora)
+          this.mensajeOk = res.detail || 'Login exitoso desde Python 😎';
+          alert(this.mensajeOk);
+          // Aquí luego ya harás: this.router.navigate(['/home']);
         } else {
-          this.message = "❌ Usuario o contraseña incorrectos";
+          // ❌ Credenciales incorrectas → popup diseñado
+          const msg = res.detail || 'Usuario o contraseña incorrectos.';
+          this.mensajeError = msg;
+          this.openModalError(msg);
         }
       },
-      (err) => {
-        console.error('login error', err);
-        this.message = "❌ Error con el servidor";
-      }
-    );
+      error: (err) => {
+        console.error('Error en login:', err);
+        this.loading = false;
+
+        const msg = 'Error de conexión con el servidor.';
+        this.mensajeError = msg;
+        this.openModalError(msg);
+      },
+    });
   }
 }
