@@ -222,7 +222,7 @@
     </section>
   </main>
 
-  <!-- POPUP -->
+  <!-- POPUP GENÉRICO (ÉXITO / ERROR) -->
   <div class="modal-overlay" *ngIf="showModal">
     <div class="modal-card" [ngClass]="modalType">
       <div class="modal-icon">
@@ -232,6 +232,43 @@
       <h2>{{ modalTitle }}</h2>
       <p>{{ modalMessage }}</p>
       <button class="modal-btn" (click)="closeModal()">Aceptar</button>
+    </div>
+  </div>
+
+  <!-- POPUP PARA NOMBRAR LA SIMULACIÓN -->
+  <div class="modal-overlay" *ngIf="showNameModal">
+    <div class="modal-card">
+      <div class="modal-icon">
+        <span>✏️</span>
+      </div>
+      <h2>Nombrar simulación</h2>
+      <p>
+        Ingresa un nombre para identificar esta simulación en el plan de pagos.
+      </p>
+
+      <input
+        type="text"
+        class="modal-input"
+        [(ngModel)]="simulationName"
+        placeholder="Ej. Simulación MiVivienda - Juan Pérez - Dpto 302"
+      />
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="modal-btn secondary"
+          (click)="cancelName()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="modal-btn"
+          (click)="confirmName()"
+        >
+          Guardar
+        </button>
+      </div>
     </div>
   </div>
 </div>

@@ -328,6 +328,41 @@ input:focus {
   cursor: pointer;
 }
 
+/* ===== INPUT DEL POPUP DE NOMBRE ===== */
+.modal-input {
+  width: 100%;
+  margin: 0.7rem 0 1rem;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: #020617;
+  color: #f9fafb;
+  font-size: 0.9rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.modal-input:focus {
+  border: 2px solid #22c55e;
+  box-shadow: 0 0 6px #22c55e88;
+  background: #030b1c;
+}
+
+/* Botones dentro del popup de nombre */
+.modal-actions {
+  margin-top: 0.4rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.modal-btn.secondary {
+  background: transparent;
+  color: #e5e7eb;
+  border: 1px solid #ffffff55;
+}
+
+
 /* RESPONSIVE */
 @media (max-width: 980px) {
   .topbar {
