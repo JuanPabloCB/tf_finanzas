@@ -83,6 +83,35 @@
   padding: 2.5rem 3rem 3rem;
 }
 
+.content-inner {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Botón volver al dashboard arriba */
+.top-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.btn-back {
+  border-radius: 999px;
+  border: 1px solid #ffffff55;
+  padding: 0.45rem 1.5rem;
+  background: rgba(15, 23, 42, 0.9);
+  color: #e5e7eb;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.btn-back:hover {
+  filter: brightness(1.08);
+}
+
 .form-card {
   background: rgba(3, 7, 18, 0.96);
   border-radius: 24px;
@@ -139,6 +168,7 @@
   box-shadow: 0 0 6px #22c55e88;   /* brillo suave */
   background: #030b1c;             /* tono más claro al enfocar */
 }
+
 /* BOTONES */
 .actions {
   display: flex;

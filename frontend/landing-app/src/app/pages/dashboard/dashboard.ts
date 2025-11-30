@@ -26,7 +26,8 @@ export class DashboardComponent {
 
   // ====== BOTONES PRINCIPALES ======
   onNewSimulation() {
-    console.log('Nueva simulación (pendiente de implementar)');
+    // Navega a la pantalla de creación de simulaciones
+    this.router.navigate(['/simulaciones/crear']);
   }
 
   onRegisterClient() {

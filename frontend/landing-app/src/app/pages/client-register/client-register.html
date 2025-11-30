@@ -17,214 +17,232 @@
 
   <!-- CONTENIDO -->
   <main class="content">
-    <section class="form-card">
-      <h1>Registrar Cliente</h1>
-      <p class="subtitle">
-        Completa la información del cliente para poder generar simulaciones de crédito MiVivienda.
-      </p>
+    <div class="content-inner">
+      <!-- BOTÓN VOLVER ARRIBA A LA IZQUIERDA -->
+      <div class="top-actions">
+        <button
+          type="button"
+          class="btn-back"
+          (click)="goToDashboard()"
+        >
+          ← Volver al dashboard
+        </button>
+      </div>
 
-      <form #clientForm="ngForm" (ngSubmit)="onSubmit(clientForm)" novalidate>
-        <!-- FILA 1: DNI + Fecha nacimiento -->
-        <div class="form-row">
-          <div class="form-field">
-            <label for="dni">DNI *</label>
-            <input
-              id="dni"
-              name="dni"
-              type="text"
-              maxlength="8"
-              required
-              pattern="^[0-9]{8}$"
-              [(ngModel)]="client.dni"
-            />
+      <section class="form-card">
+        <h1>Registrar Cliente</h1>
+        <p class="subtitle">
+          Completa la información del cliente para poder generar simulaciones de crédito MiVivienda.
+        </p>
+
+        <form #clientForm="ngForm" (ngSubmit)="onSubmit(clientForm)" novalidate>
+          <!-- FILA 1: DNI + Fecha nacimiento -->
+          <div class="form-row">
+            <div class="form-field">
+              <label for="dni">DNI *</label>
+              <input
+                id="dni"
+                name="dni"
+                type="text"
+                maxlength="8"
+                required
+                pattern="^[0-9]{8}$"
+                [(ngModel)]="client.dni"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="birth_date">Fecha de nacimiento *</label>
+              <input
+                id="birth_date"
+                name="birth_date"
+                type="date"
+                required
+                [(ngModel)]="client.birth_date"
+              />
+            </div>
           </div>
 
-          <div class="form-field">
-            <label for="birth_date">Fecha de nacimiento *</label>
-            <input
-              id="birth_date"
-              name="birth_date"
-              type="date"
-              required
-              [(ngModel)]="client.birth_date"
-            />
-          </div>
-        </div>
+          <!-- FILA 2: Nombres y apellidos -->
+          <div class="form-row">
+            <div class="form-field">
+              <label for="first_name">Nombres *</label>
+              <input
+                id="first_name"
+                name="first_name"
+                type="text"
+                required
+                [(ngModel)]="client.first_name"
+              />
+            </div>
 
-        <!-- FILA 2: Nombres y apellidos -->
-        <div class="form-row">
-          <div class="form-field">
-            <label for="first_name">Nombres *</label>
-            <input
-              id="first_name"
-              name="first_name"
-              type="text"
-              required
-              [(ngModel)]="client.first_name"
-            />
-          </div>
+            <div class="form-field">
+              <label for="last_name_p">Apellido paterno *</label>
+              <input
+                id="last_name_p"
+                name="last_name_p"
+                type="text"
+                required
+                [(ngModel)]="client.last_name_p"
+              />
+            </div>
 
-          <div class="form-field">
-            <label for="last_name_p">Apellido paterno *</label>
-            <input
-              id="last_name_p"
-              name="last_name_p"
-              type="text"
-              required
-              [(ngModel)]="client.last_name_p"
-            />
-          </div>
-
-          <div class="form-field">
-            <label for="last_name_m">Apellido materno *</label>
-            <input
-              id="last_name_m"
-              name="last_name_m"
-              type="text"
-              required
-              [(ngModel)]="client.last_name_m"
-            />
-          </div>
-        </div>
-
-        <!-- FILA 3: Contacto -->
-        <div class="form-row">
-          <div class="form-field">
-            <label for="email">Correo electrónico *</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              [(ngModel)]="client.email"
-            />
+            <div class="form-field">
+              <label for="last_name_m">Apellido materno *</label>
+              <input
+                id="last_name_m"
+                name="last_name_m"
+                type="text"
+                required
+                [(ngModel)]="client.last_name_m"
+              />
+            </div>
           </div>
 
-          <div class="form-field">
-            <label for="phone">Celular *</label>
-            <input
-              id="phone"
-              name="phone"
-              type="text"
-              maxlength="9"
-              required
-              pattern="^[0-9]{9}$"
-              [(ngModel)]="client.phone"
-            />
-          </div>
-        </div>
+          <!-- FILA 3: Contacto -->
+          <div class="form-row">
+            <div class="form-field">
+              <label for="email">Correo electrónico *</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                [(ngModel)]="client.email"
+              />
+            </div>
 
-        <!-- FILA 4: Ocupación / empresa -->
-        <div class="form-row">
-          <div class="form-field">
-            <label for="occupation">Ocupación *</label>
-            <select
-              id="occupation"
-              name="occupation"
-              required
-              [(ngModel)]="client.occupation"
+            <div class="form-field">
+              <label for="phone">Celular *</label>
+              <input
+                id="phone"
+                name="phone"
+                type="text"
+                maxlength="9"
+                required
+                pattern="^[0-9]{9}$"
+                [(ngModel)]="client.phone"
+              />
+            </div>
+          </div>
+
+          <!-- FILA 4: Ocupación / empresa -->
+          <div class="form-row">
+            <div class="form-field">
+              <label for="occupation">Ocupación *</label>
+              <select
+                id="occupation"
+                name="occupation"
+                required
+                [(ngModel)]="client.occupation"
+              >
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option value="dependiente">Dependiente</option>
+                <option value="independiente">Independiente</option>
+                <option value="casual">Casual</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="company">Empresa / centro de trabajo</label>
+              <input
+                id="company"
+                name="company"
+                type="text"
+                [(ngModel)]="client.company"
+              />
+            </div>
+          </div>
+
+          <!-- FILA 5: Tiempo en el trabajo -->
+          <div class="form-row">
+            <div class="form-field">
+              <label for="years_at_job">Años en el trabajo actual *</label>
+              <input
+                id="years_at_job"
+                name="years_at_job"
+                type="number"
+                min="0"
+                required
+                [(ngModel)]="client.years_at_job"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="months_at_job">Meses en el trabajo actual *</label>
+              <input
+                id="months_at_job"
+                name="months_at_job"
+                type="number"
+                min="0"
+                max="11"
+                required
+                [(ngModel)]="client.months_at_job"
+              />
+            </div>
+
+            <div class="form-field">
+              <label for="monthly_income">Ingreso mensual neto (S/.) *</label>
+              <input
+                id="monthly_income"
+                name="monthly_income"
+                type="number"
+                min="0"
+                step="0.01"
+                required
+                [(ngModel)]="client.monthly_income"
+              />
+            </div>
+          </div>
+
+          <!-- FILA 6: Estado civil + dependientes -->
+          <div class="form-row">
+            <div class="form-field">
+              <label for="marital_status">Estado civil *</label>
+              <select
+                id="marital_status"
+                name="marital_status"
+                required
+                [(ngModel)]="client.marital_status"
+              >
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option value="soltero">Soltero(a)</option>
+                <option value="casado">Casado(a)</option>
+                <option value="conviviente">Conviviente</option>
+                <option value="divorciado">Divorciado(a)</option>
+                <option value="viudo">Viudo(a)</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="dependents">Número de dependientes *</label>
+              <input
+                id="dependents"
+                name="dependents"
+                type="number"
+                min="0"
+                required
+                [(ngModel)]="client.dependents"
+              />
+            </div>
+          </div>
+
+          <!-- BOTONES -->
+          <div class="actions">
+            <button type="submit" class="btn-save">Guardar información</button>
+
+            <button
+              type="button"
+              class="btn-cancel"
+              (click)="clearForm()"
             >
-              <option value="" disabled selected>Selecciona una opción</option>
-              <option value="dependiente">Dependiente</option>
-              <option value="independiente">Independiente</option>
-              <option value="casual">Casual</option>
-              <option value="otro">Otro</option>
-            </select>
+              Borrar todo
+            </button>
           </div>
-
-          <div class="form-field">
-            <label for="company">Empresa / centro de trabajo</label>
-            <input
-              id="company"
-              name="company"
-              type="text"
-              [(ngModel)]="client.company"
-            />
-          </div>
-        </div>
-
-        <!-- FILA 5: Tiempo en el trabajo -->
-        <div class="form-row">
-          <div class="form-field">
-            <label for="years_at_job">Años en el trabajo actual *</label>
-            <input
-              id="years_at_job"
-              name="years_at_job"
-              type="number"
-              min="0"
-              required
-              [(ngModel)]="client.years_at_job"
-            />
-          </div>
-
-          <div class="form-field">
-            <label for="months_at_job">Meses en el trabajo actual *</label>
-            <input
-              id="months_at_job"
-              name="months_at_job"
-              type="number"
-              min="0"
-              max="11"
-              required
-              [(ngModel)]="client.months_at_job"
-            />
-          </div>
-
-          <div class="form-field">
-            <label for="monthly_income">Ingreso mensual neto (S/.) *</label>
-            <input
-              id="monthly_income"
-              name="monthly_income"
-              type="number"
-              min="0"
-              step="0.01"
-              required
-              [(ngModel)]="client.monthly_income"
-            />
-          </div>
-        </div>
-
-        <!-- FILA 6: Estado civil + dependientes -->
-        <div class="form-row">
-          <div class="form-field">
-            <label for="marital_status">Estado civil *</label>
-            <select
-              id="marital_status"
-              name="marital_status"
-              required
-              [(ngModel)]="client.marital_status"
-            >
-              <option value="" disabled selected>Selecciona una opción</option>
-              <option value="soltero">Soltero(a)</option>
-              <option value="casado">Casado(a)</option>
-              <option value="conviviente">Conviviente</option>
-              <option value="divorciado">Divorciado(a)</option>
-              <option value="viudo">Viudo(a)</option>
-            </select>
-          </div>
-
-          <div class="form-field">
-            <label for="dependents">Número de dependientes *</label>
-            <input
-              id="dependents"
-              name="dependents"
-              type="number"
-              min="0"
-              required
-              [(ngModel)]="client.dependents"
-            />
-          </div>
-        </div>
-
-        <!-- BOTONES -->
-        <div class="actions">
-          <button type="submit" class="btn-save">Guardar información</button>
-          <button type="button" class="btn-cancel" routerLink="/dashboard">
-            Cancelar
-          </button>
-        </div>
-      </form>
-    </section>
+        </form>
+      </section>
+    </div>
   </main>
 
   <!-- POPUP -->

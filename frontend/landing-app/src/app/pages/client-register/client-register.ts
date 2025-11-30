@@ -1,36 +1,41 @@
+// src/app/pages/client-register/client-register.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-client-register',
   standalone: true,
   templateUrl: './client-register.html',
   styleUrls: ['./client-register.css'],
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
 })
 export class ClientRegisterComponent {
-  // Modelo del cliente para los [(ngModel)]
-  client = {
-    dni: '',
-    first_name: '',
-    last_name_p: '',
-    last_name_m: '',
-    birth_date: '',
-    email: '',
-    phone: '',
-    occupation: '',
-    company: '',
-    years_at_job: null as number | null,
-    months_at_job: null as number | null,
-    monthly_income: null as number | null,
-    marital_status: '',
-    dependents: null as number | null,
-  };
+  // ===== Modelo del cliente para los [(ngModel)] =====
+  private getEmptyClient() {
+    return {
+      dni: '',
+      first_name: '',
+      last_name_p: '',
+      last_name_m: '',
+      birth_date: '',
+      email: '',
+      phone: '',
+      occupation: '',
+      company: '',
+      years_at_job: null as number | null,
+      months_at_job: null as number | null,
+      monthly_income: null as number | null,
+      marital_status: '',
+      dependents: null as number | null,
+    };
+  }
 
-  // Popup
+  client = this.getEmptyClient();
+
+  // ===== Popup =====
   showModal = false;
   modalType: 'success' | 'error' = 'success';
   modalTitle = '';
@@ -41,7 +46,7 @@ export class ClientRegisterComponent {
     private router: Router
   ) {}
 
-  // Guardar cliente
+  // ===== Guardar cliente =====
   onSubmit(form: NgForm) {
     if (form.invalid) {
       this.openModal(
@@ -60,6 +65,8 @@ export class ClientRegisterComponent {
           'Cliente registrado',
           'El cliente se registró correctamente.'
         );
+        // limpiar modelo y formulario
+        this.client = this.getEmptyClient();
         form.resetForm();
       },
       error: (err) => {
@@ -73,12 +80,12 @@ export class ClientRegisterComponent {
     });
   }
 
-  // Botón "Cancelar" → Dashboard
-  onCancel() {
-    this.router.navigate(['/dashboard']);
+  // ===== Botón "Borrar todo" =====
+  clearForm() {
+    this.client = this.getEmptyClient();
   }
 
-  // Botón extra tipo "Volver al dashboard"
+  // ===== Navegación =====
   goToDashboard() {
     this.router.navigate(['/dashboard']);
   }

@@ -1,0 +1,237 @@
+<div class="simulation-page">
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="logo" routerLink="/dashboard">
+      <div class="logo-icon">🏠</div>
+      <div class="logo-text">
+        <span>Áurea</span>
+        <span>Inmobiliaria</span>
+      </div>
+    </div>
+
+    <div class="user-actions">
+      <span class="user-name">Juan Pablo Cabanillas</span>
+      <button class="btn-logout" routerLink="/login">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <!-- CONTENIDO -->
+  <main class="content">
+    <section class="sim-card">
+      <div class="sim-header">
+        <h1>Crear simulación de crédito</h1>
+        <p class="subtitle">
+          Selecciona un cliente, una vivienda y los parámetros financieros para
+          generar la simulación MiVivienda.
+        </p>
+      </div>
+
+      <form class="sim-grid" (ngSubmit)="onSimulate()">
+        <!-- COLUMNA IZQUIERDA: CLIENTE + VIVIENDA -->
+        <div class="col left-col">
+          <h2>1. Datos base</h2>
+
+          <!-- Cliente -->
+          <div class="block">
+            <h3>Cliente</h3>
+            <label for="client">Selecciona un cliente *</label>
+            <select
+              id="client"
+              name="client"
+              [(ngModel)]="selectedClientId"
+              required
+            >
+              <option [ngValue]="null" disabled selected>
+                Elige un cliente
+              </option>
+              <option *ngFor="let c of clients" [ngValue]="c.id">
+                {{ c.dni }} - {{ c.first_name }} {{ c.last_name_p }}
+              </option>
+            </select>
+
+            <div class="summary-card" *ngIf="selectedClient">
+              <p><strong>DNI:</strong> {{ selectedClient.dni }}</p>
+              <p>
+                <strong>Nombre:</strong>
+                {{ selectedClient.first_name }} {{ selectedClient.last_name_p }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Vivienda -->
+          <div class="block">
+            <h3>Vivienda</h3>
+            <label for="house">Selecciona una vivienda *</label>
+            <select
+              id="house"
+              name="house"
+              [(ngModel)]="selectedHouseId"
+              required
+            >
+              <option [ngValue]="null" disabled selected>
+                Elige una vivienda
+              </option>
+              <option *ngFor="let h of houses" [ngValue]="h.id">
+                {{ h.code }} - {{ h.project_name }} ({{ h.district }})
+              </option>
+            </select>
+
+            <div class="summary-card" *ngIf="selectedHouse">
+              <p><strong>Código:</strong> {{ selectedHouse.code }}</p>
+              <p>
+                <strong>Proyecto:</strong> {{ selectedHouse.project_name }}
+              </p>
+              <p><strong>Distrito:</strong> {{ selectedHouse.district }}</p>
+              <p>
+                <strong>Valor inmueble:</strong>
+                {{ selectedHouse.property_value }}
+              </p>
+              <p>
+                <strong>Cuota inicial registrada:</strong>
+                {{ selectedHouse.down_payment }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- COLUMNA DERECHA: PARÁMETROS Y RESULTADO -->
+        <div class="col right-col">
+          <h2>2. Parámetros de la simulación</h2>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="currency">Moneda</label>
+              <select
+                id="currency"
+                name="currency"
+                [(ngModel)]="currency"
+              >
+                <option value="PEN">Soles (PEN)</option>
+                <option value="USD">Dólares (USD)</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="bank">Entidad financiera</label>
+              <input
+                id="bank"
+                name="bank"
+                type="text"
+                [(ngModel)]="bank"
+                placeholder="BCP, BBVA, Scotiabank, etc."
+              />
+            </div>
+
+            <div class="field">
+              <label for="annualRate">TEA (%)</label>
+              <input
+                id="annualRate"
+                name="annualRate"
+                type="number"
+                min="0"
+                step="0.01"
+                [(ngModel)]="annualRate"
+              />
+            </div>
+
+            <div class="field">
+              <label for="years">Plazo (años)</label>
+              <input
+                id="years"
+                name="years"
+                type="number"
+                min="1"
+                [(ngModel)]="years"
+              />
+            </div>
+
+            <div class="field">
+              <label for="graceMonths">Periodo de gracia (meses)</label>
+              <input
+                id="graceMonths"
+                name="graceMonths"
+                type="number"
+                min="0"
+                [(ngModel)]="graceMonths"
+              />
+            </div>
+
+            <div class="field">
+              <label for="method">Método de amortización</label>
+              <select
+                id="method"
+                name="method"
+                [(ngModel)]="method"
+              >
+                <option value="frances">Francés</option>
+                <option value="aleman">Alemán</option>
+                <option value="americano">Americano</option>
+              </select>
+            </div>
+
+            <div class="field checkbox-field">
+              <label>
+                <input
+                  type="checkbox"
+                  name="applyBBP"
+                  [(ngModel)]="applyBBP"
+                />
+                Aplicar Bono Buen Pagador (BBP)
+              </label>
+            </div>
+          </div>
+
+          <h2 class="res-title">3. Resultado estimado</h2>
+          <div class="result-card">
+            <p>
+              <strong>Monto financiado:</strong>
+              <span *ngIf="financedAmount !== null">
+                {{ currency === 'PEN' ? 'S/' : '$' }} {{ financedAmount }}
+              </span>
+              <span *ngIf="financedAmount === null">—</span>
+            </p>
+
+            <p>
+              <strong>Cuota mensual estimada:</strong>
+              <span *ngIf="monthlyPayment !== null">
+                {{ currency === 'PEN' ? 'S/' : '$' }} {{ monthlyPayment }}
+              </span>
+              <span *ngIf="monthlyPayment === null">—</span>
+            </p>
+
+            <p class="small-text">
+              Este cálculo es referencial y no sustituye la evaluación final de
+              la entidad financiera.
+            </p>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn-simulate">
+              Generar simulación
+            </button>
+            <button
+              type="button"
+              class="btn-back"
+              routerLink="/dashboard"
+            >
+              Volver al dashboard
+            </button>
+          </div>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- POPUP -->
+  <div class="modal-overlay" *ngIf="showModal">
+    <div class="modal-card" [ngClass]="modalType">
+      <div class="modal-icon">
+        <span *ngIf="modalType === 'success'">✔</span>
+        <span *ngIf="modalType === 'error'">✖</span>
+      </div>
+      <h2>{{ modalTitle }}</h2>
+      <p>{{ modalMessage }}</p>
+      <button class="modal-btn" (click)="closeModal()">Aceptar</button>
+    </div>
+  </div>
+</div>
